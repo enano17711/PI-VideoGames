@@ -5,6 +5,7 @@ const {Op} = require("sequelize")
 const {randomUUID} = require('crypto')
 
 const createVideoGameWithGenres = async (data) => {
+    console.log(`this is data: ${data}`)
     try {
         const videoGameDataFormatted = {
             id: randomUUID(),
@@ -18,7 +19,15 @@ const createVideoGameWithGenres = async (data) => {
         }
 
         const videoGame = await VideoGame.create(videoGameDataFormatted)
-        await videoGame.addGenres(data.genres)
+
+        console.log(`this is videoGame: ${videoGame}`)
+        console.log(`this is genres data: ${data.genres}`)
+
+        for (const genre of data.genres) {
+            const genreOfDataFormatted = await Genre.findByPk(genre.id)
+            console.log(`this is genreOfDataFormatted: ${genreOfDataFormatted}`)
+            await videoGame.addGenre(genreOfDataFormatted)
+        }
     } catch (e) {
         console.log(e.message)
     }
