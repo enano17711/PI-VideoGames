@@ -49,7 +49,17 @@ const getAllDataById = async (id) => {
         if (data.detail)
             throw new Error(data.detail)
 
-        return data
+        return {
+            id: data.id,
+            apiId: data.apiId,
+            name: data.name,
+            description: data.description,
+            released: data.released,
+            rating: data.rating,
+            image: data.background_image,
+            genres: data.genres,
+            platform: data.platforms
+        }
     } catch (e) {
         console.log(e.message)
     }
