@@ -53,6 +53,8 @@ const getAllDataById = async (id) => {
         if (data.detail)
             throw new Error(data.detail)
 
+        console.log(`this is data: ${data}`)
+
         return {
             id: data.id,
             apiId: data.apiId,
@@ -62,7 +64,7 @@ const getAllDataById = async (id) => {
             rating: data.rating,
             image: data.background_image,
             genres: data.genres,
-            platform: data.platforms
+            platforms: data.platforms
         }
     } catch (e) {
         console.log(e.message)

@@ -64,6 +64,8 @@ const getAllData = async (searchString) => {
 
         return [...dbData, ...apiData].map(game => {
             return {
+                id: game.id,
+                apiId: game.apiId,
                 name: game.name,
                 image: game.background_image,
                 genres: game.genres.map(g => g.name)
