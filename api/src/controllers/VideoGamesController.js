@@ -3,6 +3,7 @@ const VideoGame = db.models.VideoGame
 const {Op} = require("sequelize")
 const {getAllData} = require("../utils/getVideoGamesData");
 const {getAllDataById} = require("../utils/getVideoGameDataById");
+const {createVideoGameWithGenres} = require("../utils/postVideoGames");
 
 module.exports = {
     getVideoGames: async (req, res) => {
@@ -20,6 +21,14 @@ module.exports = {
         try {
             const dataResponse = await getAllDataById(idVideogame)
             res.send(dataResponse)
+        } catch (e) {
+            console.log(e.message)
+        }
+    },
+    postVideoGames: async (req, res) => {
+        const data = req.body
+        try {
+            res.send(await createVideoGameWithGenres(data))
         } catch (e) {
             console.log(e.message)
         }
