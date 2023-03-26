@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 
+const videoGamesRoutes = require("./routes/VideoGamesRoute.js");
+
 const app = express();
 
 const corsOptions = {
@@ -17,5 +19,7 @@ app.use(morgan("dev"));
 app.get("/", (req, res) => {
     res.json({message: "Welcome to VideoGames application."});
 });
+
+app.use("/videogames", videoGamesRoutes);
 
 module.exports = app;

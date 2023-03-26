@@ -1,5 +1,5 @@
 const app = require('./src/app.js');
-const db = require("./dataBase.js");
+const db = require("./src/config/dataBase.js");
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

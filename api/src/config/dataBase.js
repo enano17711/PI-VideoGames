@@ -15,8 +15,8 @@ const db = {
     sequelize,
     Sequelize,
     models: {
-        VideoGame: require("./src/models/VideoGame")(sequelize, Sequelize),
-        Genre: require("./src/models/Genre")(sequelize, Sequelize),
+        VideoGame: require("../models/VideoGame")(sequelize, Sequelize),
+        Genre: require("../models/Genre")(sequelize, Sequelize),
     }
 }
 
