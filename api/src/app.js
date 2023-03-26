@@ -3,6 +3,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 
 const videoGamesRoutes = require("./routes/VideoGamesRoute.js");
+const genresRoutes = require("./routes/GenresRoute.js");
 
 const app = express();
 
@@ -21,5 +22,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/videogames", videoGamesRoutes);
+app.use("/genres", genresRoutes);
 
 module.exports = app;
