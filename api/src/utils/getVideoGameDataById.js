@@ -22,7 +22,7 @@ const gamesDbDataById = async (id) => {
             {
                 model: Genre,
                 as: 'genres',
-                attributes: ['name'],
+                attributes: ['id', 'apiId', 'name'],
                 through: {
                     attributes: []
                 }
@@ -30,7 +30,11 @@ const gamesDbDataById = async (id) => {
         ]
     }
     try {
-        return await VideoGame.findByPk(id, condition)
+        const videoById = await VideoGame.findByPk(id, condition)
+        return {
+            ...videoById,
+            platforms: JSON.parse(videoById.platforms)
+        }
     } catch (e) {
         console.log(e.message)
     }
