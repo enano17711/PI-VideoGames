@@ -2,20 +2,28 @@ const db = require('../config/dataBase.js');
 const VideoGame = db.models.VideoGame
 const Genre = db.models.Genre
 const {Op} = require("sequelize")
-
+const axios = require('axios')
 
 const gamesApiData = async (searchString) => {
     const url = searchString !== undefined
         ? `${process.env.API_GAMES}?page=1&page_size=100&search=${searchString}&key=${process.env.API_KEY}`
         : `${process.env.API_GAMES}?page=1&page_size=100&key=${process.env.API_KEY}`
-    console.log(`esto es url: ${url}`)
 
     try {
-        const response = await fetch(url)
-        const data = await response.json()
-        return data.results
+        const allVideoGames = await axios.get(url)
+        return allVideoGames.data.results.map(data => {
+            return {
+                id: data.id,
+                name: data.name,
+                released: data.released,
+                rating: data.rating,
+                background_image: data.background_image,
+                genres: data.genres,
+                platforms: data.platforms
+            }
+        })
     } catch (e) {
-        console.log(e.message)
+        throw new Error(e.message)
     }
 }
 const gamesDbData = async (searchString) => {
@@ -45,9 +53,22 @@ const gamesDbData = async (searchString) => {
             ]
         }
     try {
-        return await VideoGame.findAll(condition)
+        const allVideoGames = await VideoGame.findAll(condition)
+        return allVideoGames.map(data => {
+            return {
+                id: data.id,
+                apiId: data.apiId,
+                name: data.name,
+                description: data.description,
+                released: data.released,
+                rating: data.rating,
+                background_image: data.background_image,
+                genres: data.genres,
+                platforms: JSON.parse(data.platforms)
+            }
+        })
     } catch (e) {
-        console.log(e.message)
+        throw new Error(e.message)
     }
 }
 const getAllData = async (searchString) => {
@@ -55,24 +76,21 @@ const getAllData = async (searchString) => {
         const dbData = await gamesDbData(searchString)
         const apiData = await gamesApiData(searchString)
 
-        console.log(`dbData: ${dbData}`)
-        console.log(`apiData: ${apiData}`)
-
-        Object.keys(apiData[0]).forEach(key => {
-            console.log(`key de apiData: ${key}`)
-        })
-
         return [...dbData, ...apiData].map(game => {
             return {
                 id: game.id,
                 apiId: game.apiId,
                 name: game.name,
-                image: game.background_image,
-                genres: game.genres.map(g => g.name)
+                description: game.description,
+                released: game.released,
+                rating: game.rating,
+                background_image: game.background_image,
+                genres: game.genres.map(g => g.name),
+                platforms: game.platforms
             }
         })
     } catch (e) {
-        console.log(e.message)
+        throw new Error(e.message)
     }
 }
 

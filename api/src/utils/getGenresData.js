@@ -35,7 +35,16 @@ const saveGenresApiDataToDbData = async () => {
     }
 }
 
+const genresAllData = async () => {
+    try {
+        return await Genre.findAll()
+    } catch (e) {
+        throw new Error(e.message)
+    }
+}
+
 module.exports = {
     getGenresApiData,
+    genresAllData,
     saveGenresApiDataToDbData
 }
