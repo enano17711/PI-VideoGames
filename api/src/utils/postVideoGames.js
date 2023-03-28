@@ -1,7 +1,6 @@
 const db = require('../config/dataBase.js');
 const VideoGame = db.models.VideoGame
 const Genre = db.models.Genre
-const {Op} = require("sequelize")
 const {randomUUID} = require('crypto')
 
 const createVideoGameWithGenres = async (data) => {
