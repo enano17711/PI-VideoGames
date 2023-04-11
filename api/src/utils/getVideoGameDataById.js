@@ -19,7 +19,7 @@ const gamesApiDataById = async (id) => {
             rating: dataResult.rating,
             background_image: dataResult.background_image,
             genres: dataResult.genres,
-            platforms: dataResult.platforms
+            platforms: dataResult.platforms.map(plat => plat.platform.name)
         }
     } catch (e) {
         throw new Error(e.message)
@@ -65,7 +65,7 @@ const getAllDataById = async (id) => {
             released: data.released,
             rating: data.rating,
             background_image: data.background_image,
-            genres: data.genres,
+            genres: data.genres.map(gen => gen.name),
             platforms: data.platforms
         }
     } catch (e) {

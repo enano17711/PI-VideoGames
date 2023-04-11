@@ -4,7 +4,6 @@ const Genre = db.models.Genre
 const {randomUUID} = require('crypto')
 
 const createVideoGameWithGenres = async (data) => {
-    console.log(`this is data: ${data}`)
     try {
         const videoGameDataFormatted = {
             id: randomUUID(),
@@ -18,17 +17,14 @@ const createVideoGameWithGenres = async (data) => {
         }
 
         const videoGame = await VideoGame.create(videoGameDataFormatted)
-
-        console.log(`this is videoGame: ${videoGame}`)
-        console.log(`this is genres data: ${data.genres}`)
+        const getVid = await VideoGame.findByPk(videoGameDataFormatted.id)
 
         for (const genre of data.genres) {
             const genreOfDataFormatted = await Genre.findByPk(genre.id)
-            console.log(`this is genreOfDataFormatted: ${genreOfDataFormatted}`)
             await videoGame.addGenre(genreOfDataFormatted)
         }
     } catch (e) {
-        console.log(e.message)
+        throw new Error(e.message)
     }
 }
 

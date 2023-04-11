@@ -4,7 +4,6 @@ const {randomUUID} = require('crypto')
 
 const getGenresApiData = async () => {
     const url = `https://api.rawg.io/api/genres?key=${process.env.API_KEY}`
-    console.log(`esto es url: ${url}`)
     try {
         const response = await fetch(url)
         const data = await response.json()
@@ -16,7 +15,7 @@ const getGenresApiData = async () => {
             }
         })
     } catch (e) {
-        console.log(e.message)
+        throw new Error(e.message)
     }
 }
 
@@ -29,7 +28,7 @@ const saveGenresApiDataToDbData = async () => {
         })
         return await Genre.findAll()
     } catch (e) {
-        console.log(e.message)
+        throw new Error(e.message)
     }
 }
 

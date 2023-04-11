@@ -11,26 +11,27 @@ module.exports = {
 
         try {
             const dataResponse = await getAllData(name)
-            res.send(dataResponse)
+            res.status(200).send(dataResponse)
         } catch (e) {
-            console.log(e.message)
+            res.status(404).send(e.message)
         }
     },
     getVideoGameById: async (req, res) => {
         const idVideogame = req.params.idVideogame
         try {
             const dataResponse = await getAllDataById(idVideogame)
-            res.send(dataResponse)
+            res.status(200).send(dataResponse)
         } catch (e) {
-            console.log(e.message)
+            res.status(404).send(e.message)
         }
     },
     postVideoGames: async (req, res) => {
         const data = req.body
+
         try {
-            res.send(await createVideoGameWithGenres(data))
+            res.status(201).send(await createVideoGameWithGenres(data))
         } catch (e) {
-            console.log(e.message)
+            res.status(403).send(e.message)
         }
     }
 }

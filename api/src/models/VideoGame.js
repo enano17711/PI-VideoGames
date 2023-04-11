@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: true
         },
         background_image: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: true
         },
         released: {
@@ -35,7 +35,7 @@ module.exports = (sequelize, Sequelize) => {
             type: DataTypes.STRING,
             allowNull: true
         }
-    },{
+    }, {
         timestamps: false
     })
 }

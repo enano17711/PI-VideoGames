@@ -5,12 +5,14 @@ const {Op} = require("sequelize")
 const axios = require('axios')
 
 const gamesApiData = async (searchString) => {
-    const url = searchString !== undefined
-        ? `${process.env.API_GAMES}?page=1&page_size=100&search=${searchString}&key=${process.env.API_KEY}`
-        : `${process.env.API_GAMES}?page=1&page_size=100&key=${process.env.API_KEY}`
+    let url;
+    if (searchString !== undefined && searchString !== '') {
+        url = `${process.env.API_GAMES}?page=1&page_size=100&search=${searchString}&key=${process.env.API_KEY}`;
+    } else url = `${process.env.API_GAMES}?page=1&page_size=100&key=${process.env.API_KEY}`;
 
     try {
         const allVideoGames = await axios.get(url)
+        console.log(allVideoGames.data.results.length)
         return allVideoGames.data.results.map(data => {
             return {
                 id: data.id,
@@ -19,7 +21,7 @@ const gamesApiData = async (searchString) => {
                 rating: data.rating,
                 background_image: data.background_image,
                 genres: data.genres,
-                platforms: data.platforms
+                platforms: data.platforms.map(plat => (plat.platform.name))
             }
         })
     } catch (e) {
@@ -76,19 +78,35 @@ const getAllData = async (searchString) => {
         const dbData = await gamesDbData(searchString)
         const apiData = await gamesApiData(searchString)
 
-        return [...dbData, ...apiData].map(game => {
-            return {
-                id: game.id,
-                apiId: game.apiId,
-                name: game.name,
-                description: game.description,
-                released: game.released,
-                rating: game.rating,
-                background_image: game.background_image,
-                genres: game.genres.map(g => g.name),
-                platforms: game.platforms
-            }
-        })
+        if (searchString !== undefined && searchString !== '') {
+            return [...dbData, ...apiData].slice(0, 15).map(game => {
+                return {
+                    id: game.id,
+                    apiId: game.apiId,
+                    name: game.name,
+                    description: game.description,
+                    released: game.released,
+                    rating: game.rating,
+                    background_image: game.background_image,
+                    genres: game.genres.map(g => g.name),
+                    platforms: game.platforms
+                }
+            })
+        } else {
+            return [...dbData, ...apiData].map(game => {
+                return {
+                    id: game.id,
+                    apiId: game.apiId,
+                    name: game.name,
+                    description: game.description,
+                    released: game.released,
+                    rating: game.rating,
+                    background_image: game.background_image,
+                    genres: game.genres.map(g => g.name),
+                    platforms: game.platforms
+                }
+            })
+        }
     } catch (e) {
         throw new Error(e.message)
     }

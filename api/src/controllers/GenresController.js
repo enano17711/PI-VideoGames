@@ -1,10 +1,10 @@
-const {saveGenresApiDataToDbData} = require("../utils/getGenresData");
+const {saveGenresApiDataToDbData, genresAllData} = require("../utils/getGenresData");
 module.exports = {
     getGenres: async (req, res) => {
         try {
-            res.send(await saveGenresApiDataToDbData())
+            res.status(200).send(await genresAllData())
         } catch (e) {
-            console.log(e.message)
+            res.status(404).send(e.message)
         }
     },
     getGenresForDataBase: async (req, res) => {
