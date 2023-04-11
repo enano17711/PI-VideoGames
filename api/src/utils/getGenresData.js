@@ -7,7 +7,7 @@ const getGenresApiData = async () => {
     const url = `https://api.rawg.io/api/genres?key=${process.env.API_KEY}`
     try {
         const data = await axios.get(url)
-        return data.data.map(item => {
+        return data.data.results.map(item => {
             return {
                 id: randomUUID(),
                 apiId: item.id,
