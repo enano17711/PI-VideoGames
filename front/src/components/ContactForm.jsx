@@ -262,7 +262,7 @@ const ContactForm = () => {
                         <button type="submit" className='button'>CREAR JUEGO</button>
                     </form>
                     <br/>
-                    <Button>Volver</Button>
+                    <Button href={"/home"}>Volver</Button>
                 </div>
             </div>
         </ContactFormStyleWrapper>
