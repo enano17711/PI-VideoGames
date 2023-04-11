@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {createGame} from "../slices/games.js";
 import Option from "./Option.jsx";
+import Button from "./Button.jsx";
 
 const ContactFormStyleWrapper = styled.div`
   max-width: 600px;
@@ -260,6 +261,8 @@ const ContactForm = () => {
 
                         <button type="submit" className='button'>CREAR JUEGO</button>
                     </form>
+                    <br/>
+                    <Button>Volver</Button>
                 </div>
             </div>
         </ContactFormStyleWrapper>
