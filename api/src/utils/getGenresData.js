@@ -1,13 +1,13 @@
 const db = require('../config/dataBase.js');
 const Genre = db.models.Genre
 const {randomUUID} = require('crypto')
+const axios = require("axios");
 
 const getGenresApiData = async () => {
     const url = `https://api.rawg.io/api/genres?key=${process.env.API_KEY}`
     try {
-        const response = await fetch(url)
-        const data = await response.json()
-        return data.results.map(item => {
+        const data = await axios.get(url)
+        return data.data.map(item => {
             return {
                 id: randomUUID(),
                 apiId: item.id,
