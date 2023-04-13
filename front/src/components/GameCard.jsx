@@ -264,21 +264,14 @@ const ProjectCardStyleWrapper = styled.div`
 `;
 
 const GameCard = ({game}) => {
-    const [image, setImage] = useState(null)
-
-    useEffect(() => {
-        if (!game.background_image.includes("https")) {
-            setImage(game.background_image)
-        }
-    }, [image])
-
     return (
         <ProjectCardStyleWrapper>
             <div className="project_content_left">
                 <div className="project_thumb">
-                    <img src={image ? `data:image/*;base64,${image}` : game.background_image}
-                         alt="project thumb"
-                         className="img-fluid"/>
+                    <img src={game?.background_image?.includes("https")
+                        ? game.background_image
+                        : `data:image/*;base64,${game.background_image}`}
+                         alt="image"/>
                 </div>
                 <div className="project_thumb_small">
                     <img src={data[0].projectIcon} alt="project icon"/>

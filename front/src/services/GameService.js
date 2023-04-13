@@ -1,3 +1,4 @@
+/*
 import http from "../http-common";
 
 const getAll = () => {
@@ -18,10 +19,10 @@ const TutorialService = {
     getAll,
     get,
     create,
-    /*    update,
+    /!*    update,
         remove,
-        removeAll,*/
+        removeAll,*!/
     findByName
 };
 
-export default TutorialService;
+export default TutorialService;*/

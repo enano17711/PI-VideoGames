@@ -12,6 +12,6 @@
     "sequelize": "^6.30.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   }
 }

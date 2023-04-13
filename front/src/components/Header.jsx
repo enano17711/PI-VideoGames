@@ -4,7 +4,8 @@ import breadcumdBg from "../assets/images/breadcrumbs-bg.jpg";
 import titleShape from "../assets/icons/steps.png";
 import Button from "./Button.jsx";
 import {useDispatch} from "react-redux";
-import {findGamesByName} from "../slices/games.js";
+import {searchGameByNameAction} from "../actions/gamesActions/searchGameByNameAction.js";
+//import {findGamesByName} from "../slices/games.js";
 
 const PageHeaderStyleWrapper = styled.div`
   background: url(${breadcumdBg});
@@ -136,9 +137,6 @@ const Header = ({currentPage, pageTitle}) => {
 
     const dispatch = useDispatch()
 
-    const findByName = () => {
-        dispatch(findGamesByName({name: searchName}))
-    }
     return (
         <PageHeaderStyleWrapper>
             <div className={"container"}>
@@ -174,7 +172,7 @@ const Header = ({currentPage, pageTitle}) => {
                                     X
                                 </button>
                             </form>
-                            <div onClick={findByName}>
+                            <div onClick={() => dispatch(searchGameByNameAction(searchName))}>
                                 <Button sm variant="dark">
                                     SEARCH
                                 </Button>

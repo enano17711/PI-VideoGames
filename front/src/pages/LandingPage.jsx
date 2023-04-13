@@ -3,6 +3,9 @@ import styled from "styled-components";
 import bannerBG from "../assets/images/banner-bg.jpg";
 import bannerIcon from "../assets/icons/icon1.png";
 import Button from "../components/Button.jsx";
+import {useDispatch} from "react-redux";
+import {getGamesAction} from "../actions/gamesActions/getGamesAction.js";
+import {getGenresAction} from "../actions/genresActions/getGenresAction.js";
 
 const BannerStyleWrapper = styled.section`
   height: 100vh;
@@ -90,6 +93,15 @@ const BannerStyleWrapper = styled.section`
 `;
 
 const LandingPage = () => {
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        const getGames = () => dispatch(getGamesAction())
+        const getGenres = () => dispatch(getGenresAction())
+        getGames();
+        getGenres();
+    }, [])
+
     return (
         <>
             <BannerStyleWrapper>
@@ -101,14 +113,14 @@ const LandingPage = () => {
                             alt="banner icon"
                         />
                         <h1 className="banner-title">
-                            Welcome to best game collection
+                            Bienvenido a nuestra plataforma de juegos
                         </h1>
                         <div className="description">
-                            The next generation gaming ecosystem is here
+                            El ecosistema de juegos de próxima generación está aquí
                         </div>
 
                         <Button href="/home" variant="mint" md isCenter className="banner-btn">
-                            Explore NOW
+                            exploralos ya!
                         </Button>
                     </div>
                 </div>

@@ -1,15 +1,8 @@
-import {configureStore} from "@reduxjs/toolkit";
-import gameReducer from "./slices/games.js"
-import genresReducer from "./slices/genres.js"
+import {applyMiddleware, compose, createStore} from "redux";
+import reducers from "./reducers/index.js";
+import thunk from "redux-thunk";
 
-const reducer = {
-    games: gameReducer,
-    genres: genresReducer
-}
-
-const store = configureStore({
-    reducer: reducer,
-    devTools: true
-})
-
+const store = createStore(reducers,
+    compose(applyMiddleware(thunk),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
 export default store

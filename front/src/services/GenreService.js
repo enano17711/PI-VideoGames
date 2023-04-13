@@ -1,3 +1,4 @@
+/*
 import http from "../http-common";
 
 const getAll = () => {
@@ -8,4 +9,4 @@ const GenreService = {
     getAll
 };
 
-export default GenreService;
+export default GenreService;*/

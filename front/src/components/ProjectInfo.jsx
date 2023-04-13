@@ -136,14 +136,7 @@ const ProjectInfoStyleWrapper = styled.section`
 `;
 
 const ProjectInfo = ({game}) => {
-    const [image, setImage] = useState(null)
-
-    useEffect(() => {
-        if (!game.background_image.includes("https")) {
-            setImage(game.background_image)
-        }
-    }, [image])
-
+    console.log(JSON.stringify(game.background_image))
     return (
         <ProjectInfoStyleWrapper className="live_project_wrapper">
             <div className="game-price-item">
@@ -151,7 +144,10 @@ const ProjectInfo = ({game}) => {
                     <div className="total-price">
                         <div className="price-inner">
                             <div className="image-icon">
-                                <img src={image ? `data:image/*;base64,${image}` : game.background_image} alt="icon"/>
+                                <img src={game?.background_image?.includes("https")
+                                    ? game.background_image
+                                    : `data:image/*;base64,${game.background_image}`}
+                                     alt="image"/>
                             </div>
                             <div className="price-details">
                                 <h3>

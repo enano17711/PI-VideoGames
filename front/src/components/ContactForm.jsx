@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
-import {createGame} from "../slices/games.js";
 import Option from "./Option.jsx";
 import Button from "./Button.jsx";
+import {createGameAction} from "../actions/gamesActions/createGameAction.js";
 
 const ContactFormStyleWrapper = styled.div`
   max-width: 600px;
@@ -109,7 +109,7 @@ const ContactFormStyleWrapper = styled.div`
 const ContactForm = () => {
 
     const dispatch = useDispatch();
-    const genres = useSelector((state) => state.genres);
+    const genres = useSelector((state) => state.genres.genres);
     const platforms = ["PC", "PlayStation", "XBOX", "Nintendo"].map((p, i) => ({id: p, name: p}))
     const [newGame, setNewGame] = useState({
         name: '',
@@ -129,7 +129,7 @@ const ContactForm = () => {
             return;
         }
 
-        dispatch(createGame(newGame))
+        dispatch(createGameAction(newGame))
         e.target.reset();
 
         setNewGame({

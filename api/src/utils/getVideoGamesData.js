@@ -12,7 +12,6 @@ const gamesApiData = async (searchString) => {
 
     try {
         const allVideoGames = await axios.get(url)
-        console.log(allVideoGames.data.results.length)
         return allVideoGames.data.results.map(data => {
             return {
                 id: data.id,

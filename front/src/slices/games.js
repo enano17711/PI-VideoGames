@@ -1,6 +1,4 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import GameService from "../services/GameService.js";
-import gameService from "../services/GameService.js";
+/*
 
 const initialState = []
 
@@ -56,7 +54,7 @@ const gameSlice = createSlice({
     initialState,
     reducers: {
         orderAlfDesc: (state) => {
-            return state.sort(function (a, b) {
+            const datasortalf = state?.sort(function (a, b) {
                 if (a.name < b.name) {
                     return -1;
                 }
@@ -65,6 +63,9 @@ const gameSlice = createSlice({
                 }
                 return 0;
             }).reverse();
+            console.log(datasortalf)
+            datasortalf.then(d => console.log(d))
+            return datasortalf
         },
         orderAlfAsc: (state) => {
             return state.sort(function (a, b) {
@@ -114,4 +115,4 @@ export const {
     orderByRatingDesc,
     orderByRatingAsc,
 } = gameSlice.actions
-export default reducer
+export default reducer*/

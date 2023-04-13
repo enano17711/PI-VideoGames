@@ -52,10 +52,16 @@ const getAllDataById = async (id) => {
     try {
         let data = {}
 
-        if (id.indexOf("-") === -1) data = await gamesApiDataById(id)
-        else data = await gamesDbDataById(id)
+        if (id.indexOf("-") === -1) {
+            data = await gamesApiDataById(id)
+        } else {
+            data = await gamesDbDataById(id)
+            return {...data.dataValues, platforms: JSON.parse(data.dataValues.platforms)}
+        }
 
-        if (data.detail) throw new Error(data.detail)
+        if (data.detail) {
+            throw new Error(data.detail)
+        }
 
         return {
             id: data.id,

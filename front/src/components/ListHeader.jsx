@@ -1,17 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled from "styled-components";
 import Button from "./Button.jsx";
 import nextArrowIcon from "../assets/icons/next-arrow.png";
-import {useDispatch} from "react-redux";
-import {
-    filterByApiOrigin,
-    filterGamesByGenre,
-    orderAlfAsc,
-    orderAlfDesc,
-    orderByRatingAsc,
-    orderByRatingDesc,
-
-} from "../slices/games.js";
+import {useDispatch, useSelector} from "react-redux";
+import {filterGamesByGenreAction} from "../actions/gamesActions/filterGamesByGenreAction.js";
+import {orderGamesByNameAction} from "../actions/gamesActions/orderGamesByNameAction.js";
+import {orderGamesByRatingAction} from "../actions/gamesActions/orderGamesByRatingAction.js";
+import {filterGamesByOriginAction} from "../actions/gamesActions/filterGamesByOriginAction.js";
 
 const ListHeaderStyles = styled.div`
   display: flex;
@@ -110,11 +105,11 @@ const ListHeaderStyles = styled.div`
       justify-content: center;
     }
   }
-  @media only screen and (max-width: 815px) {
-    .visibility {
-      display: none;
-    }
-  }
+  /*  @media only screen and (max-width: 815px) {
+      .visibility {
+        display: none;
+      }
+    }*/
   @media only screen and (max-width: 600px) {
     .main {
       padding-left: 10px;
@@ -123,11 +118,9 @@ const ListHeaderStyles = styled.div`
   }
 `
 
-const ListHeader = ({genres}) => {
+const ListHeader = () => {
+    const genres = useSelector(state => state.genres.genres)
     const dispatch = useDispatch()
-    useEffect(()=>{
-        console.log('disàrando disàc')
-    },[dispatch])
 
     return (
         <ListHeaderStyles>
@@ -139,16 +132,15 @@ const ListHeader = ({genres}) => {
                             <img src={nextArrowIcon} alt="icon"/>
                             <ul className="sub-menu">
                                 <li onClick={() =>
-                                    dispatch(filterByApiOrigin({origin: "API"}))}>API
+                                    dispatch(filterGamesByOriginAction("API"))}>API
                                 </li>
                                 <li onClick={() =>
-                                    dispatch(filterByApiOrigin({origin: "DB"}))}>DB
+                                    dispatch(filterGamesByOriginAction("DB"))}>DB
                                 </li>
                             </ul>
                         </button>
                     </div>
-                    <div className="visibility"
-                         onClick={() => dispatch(filterGamesByGenre({genre: genres[0].name}))}>
+                    <div className="visibility">
                         <Button sm variant="mint" href={"/form"}>
                             Create
                         </Button>
@@ -163,7 +155,7 @@ const ListHeader = ({genres}) => {
                                 {genres?.map((genre) => (
                                     <li key={genre.id}
                                         onClick={() =>
-                                            dispatch(filterGamesByGenre({genre: genre.name}))}>{genre.name}
+                                            dispatch(filterGamesByGenreAction(genre.name))}>{genre.name}
                                     </li>
                                 ))}
                             </ul>
@@ -172,16 +164,16 @@ const ListHeader = ({genres}) => {
                             Order Name
                             <img src={nextArrowIcon} alt="icon"/>
                             <ul className="sub-menu">
-                                <li onClick={() => dispatch(orderAlfAsc())}>ASC</li>
-                                <li onClick={() => dispatch(orderAlfDesc())}>DES</li>
+                                <li onClick={() => dispatch(orderGamesByNameAction("ASC"))}>ASC</li>
+                                <li onClick={() => dispatch(orderGamesByNameAction("DESC"))}>DES</li>
                             </ul>
                         </button>
                         <button>
                             Order Rating
                             <img src={nextArrowIcon} alt="icon"/>
                             <ul className="sub-menu">
-                                <li onClick={() => dispatch(orderByRatingAsc())}>ASC</li>
-                                <li onClick={() => dispatch(orderByRatingDesc())}>DES</li>
+                                <li onClick={() => dispatch(orderGamesByRatingAction("ASC"))}>ASC</li>
+                                <li onClick={() => dispatch(orderGamesByRatingAction("DESC"))}>DES</li>
                             </ul>
                         </button>
                     </div>

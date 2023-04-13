@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
-import tokenData from "../assets/data/dataV2"
 import ProjectInfo from "../components/ProjectInfo.jsx";
 import GameInfo from "../components/GameInfo.jsx";
 import {useParams} from "react-router-dom";
-import GameService from "../services/GameService.js";
+import {useDispatch, useSelector} from "react-redux";
+import {getGameByIdAction} from "../actions/gamesActions/getGameByIdAction.js";
+// import GameService from "../services/GameService.js";
 
 const ProjectDetailsStyleWrapper = styled.div`
   position: relative;
@@ -20,14 +21,6 @@ const ProjectDetailsStyleWrapper = styled.div`
 
   .game-contain {
     width: 100%;
-  }
-
-  .page_header_wrapper {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: auto;
   }
 
   .token_info_row {
@@ -51,39 +44,39 @@ const ProjectDetailsStyleWrapper = styled.div`
   }
 `;
 const DetailPage = () => {
-    const [currentGame, setCurrentGame] = useState(null)
+    const {game, loading} = useSelector(state => state.games)
+    console.log(`game: ${JSON.stringify(game)}`)
     const {id} = useParams()
 
-    const getGame = id => {
-        GameService.get(id)
-            .then(res => setCurrentGame(res.data))
-            .catch(e => console.log(e))
-    }
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        if (id) getGame(id)
+        const getGame = () => dispatch(getGameByIdAction(id))
+        getGame()
     }, [id])
 
+    if (loading) {
+        return (
+            <p>Games cargando</p>
+        )
+    }
+
     return (
-        <>
-            {currentGame
-                ? (<ProjectDetailsStyleWrapper>
-                    <div className="contain">
-                        <div className="game-contain">
-                            <ProjectInfo game={currentGame}/>
-                        </div>
-                    </div>
-                    <div className="token_info_row">
-                        <div className="column-game">
-                            <GameInfo game={currentGame} genre={true}/>
-                        </div>
-                        <div className="column-game">
-                            <GameInfo game={currentGame}/>
-                        </div>
-                    </div>
-                </ProjectDetailsStyleWrapper>)
-                : <p>hola</p>}
-        </>
+        <ProjectDetailsStyleWrapper>
+            <div className="contain">
+                <div className="game-contain">
+                    <ProjectInfo game={game}/>
+                </div>
+            </div>
+            <div className="token_info_row">
+                <div className="column-game">
+                    <GameInfo game={game} genre={true}/>
+                </div>
+                <div className="column-game">
+                    <GameInfo game={game}/>
+                </div>
+            </div>
+        </ProjectDetailsStyleWrapper>
     );
 };
 

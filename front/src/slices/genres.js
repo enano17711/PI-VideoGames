@@ -1,3 +1,4 @@
+/*
 import GenreService from "../services/GenreService.js";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
@@ -22,4 +23,4 @@ const genreSlice = createSlice({
 })
 
 const {reducer} = genreSlice;
-export default reducer;
+export default reducer;*/

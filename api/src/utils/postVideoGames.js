@@ -17,7 +17,6 @@ const createVideoGameWithGenres = async (data) => {
         }
 
         const videoGame = await VideoGame.create(videoGameDataFormatted)
-        const getVid = await VideoGame.findByPk(videoGameDataFormatted.id)
 
         for (const genre of data.genres) {
             const genreOfDataFormatted = await Genre.findByPk(genre.id)

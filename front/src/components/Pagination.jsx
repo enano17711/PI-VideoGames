@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import GameCard from "./GameCard.jsx";
+import {useDispatch, useSelector} from "react-redux";
+import {paginateGamesAction} from "../actions/gamesActions/paginateGamesAction.js";
 
 const PaginationStyleWrapper = styled.div`
   display: flex;
@@ -42,39 +44,49 @@ const PaginationStyleWrapper = styled.div`
   }
 `;
 
-const Pagination = ({games}) => {
-    const pagesNumber = Math.ceil(games.length / 15);
-    const values = new Array(pagesNumber).fill(0).map((item, index) => item + index);
-
-    const [gameData, setGameData] = useState([]);
+const Pagination = () => {
     const [active, setActive] = useState(0);
+
+    const games = useSelector(state => state.games.games)
+    const auxForCount = useSelector(state => state.games.auxGame.length)
+    const lengthFilterGenre = useSelector(state => state.games.length)
+
+    const values = Array.from(
+        {
+            length: Math.ceil(lengthFilterGenre !== null ? lengthFilterGenre / 15 : auxForCount / 15)
+        }, (_, i) => i)
+
+    const dispatch = useDispatch()
 
     const handleClick = (e) => {
         e.preventDefault()
-        setActive(Number(e.target.innerText))
+        if (e.target.innerText === ">") {
+            if (active >= values.length - 1) setActive(values.length - 1)
+            else setActive(active + 1)
+        } else if (e.target.innerText === "<") {
+            if (active <= 0) setActive(0)
+            else setActive(active - 1)
+        } else setActive(Number(e.target.innerText))
     }
 
     useEffect(() => {
-        const data = games.slice(active * 15, (active + 1) * 15)
-        setGameData(data)
+        const paginateGames = () => dispatch(paginateGamesAction(active))
+        paginateGames()
     }, [active])
 
     return (
         <>
-            {gameData?.length === 0
-                ? games?.slice(0, 15).map((game, index) => (
-                    <GameCard key={game.id || index} game={game}/>
-                ))
-                : gameData?.map((game, index) => (
-                    <GameCard key={game.id || index} game={game}/>
-                ))}
+            {games.map((game, index) => (
+                <GameCard key={game.id || index} game={game}/>
+            ))}
+
             <PaginationStyleWrapper className="pagination_wrapper">
-                <a href="#">{"<"}</a>
+                <a onClick={handleClick}>{"<"}</a>
                 {values.map(val => (
-                    <a className={active === val ? 'active' : ''} key={val} onClick={(e) => handleClick(e)}
+                    <a className={active === val ? 'active' : ''} key={val} onClick={handleClick}
                        href="#">{val}</a>
                 ))}
-                <a href="#">{">"}</a>
+                <a onClick={handleClick}>{">"}</a>
             </PaginationStyleWrapper>
         </>
     );
