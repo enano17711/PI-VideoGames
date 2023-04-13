@@ -2,7 +2,7 @@ import {FILTER_GAMES_BY_ORIGIN, FILTER_GAMES_BY_ORIGIN_INIT} from "../../types/i
 
 export function filterGamesByOriginAction(payload) {
     return (dispatch) => {
-        dispatch(filterGamesByOriginInit());
+        dispatch(filterGamesByOriginInit(payload));
         dispatch(filterGamesByOrigin(payload));
     }
 }

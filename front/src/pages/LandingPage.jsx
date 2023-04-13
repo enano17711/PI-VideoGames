@@ -6,6 +6,7 @@ import Button from "../components/Button.jsx";
 import {useDispatch} from "react-redux";
 import {getGamesAction} from "../actions/gamesActions/getGamesAction.js";
 import {getGenresAction} from "../actions/genresActions/getGenresAction.js";
+import {paginateGamesAction} from "../actions/gamesActions/paginateGamesAction.js";
 
 const BannerStyleWrapper = styled.section`
   height: 100vh;
@@ -98,8 +99,10 @@ const LandingPage = () => {
     React.useEffect(() => {
         const getGames = () => dispatch(getGamesAction())
         const getGenres = () => dispatch(getGenresAction())
-        getGames();
         getGenres();
+        getGames().then(() => {
+            dispatch(paginateGamesAction(0));
+        });
     }, [])
 
     return (

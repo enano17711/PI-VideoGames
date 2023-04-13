@@ -45,11 +45,14 @@ const PaginationStyleWrapper = styled.div`
 `;
 
 const Pagination = () => {
-    const [active, setActive] = useState(0);
-
     const games = useSelector(state => state.games.games)
     const auxForCount = useSelector(state => state.games.auxGame.length)
     const lengthFilterGenre = useSelector(state => state.games.length)
+    const order = useSelector(state => state.games.order)
+
+    const [active, setActive] = useState(0);
+    const [localOrder, setLocalOrder] = useState(order);
+    const [localLenght, setLocalLenght] = useState(lengthFilterGenre);
 
     const values = Array.from(
         {
@@ -72,7 +75,7 @@ const Pagination = () => {
     useEffect(() => {
         const paginateGames = () => dispatch(paginateGamesAction(active))
         paginateGames()
-    }, [active])
+    }, [active, localOrder, localLenght])
 
     return (
         <>

@@ -136,7 +136,6 @@ const ProjectInfoStyleWrapper = styled.section`
 `;
 
 const ProjectInfo = ({game}) => {
-    console.log(JSON.stringify(game.background_image))
     return (
         <ProjectInfoStyleWrapper className="live_project_wrapper">
             <div className="game-price-item">

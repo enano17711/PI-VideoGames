@@ -120,6 +120,7 @@ const ContactForm = () => {
         genres: [],
         platforms: []
     });
+    const [ok, setOk] = useState(false);
     const onSubmit = (e) => {
         e.preventDefault();
 
@@ -130,6 +131,12 @@ const ContactForm = () => {
         }
 
         dispatch(createGameAction(newGame))
+
+        setOk(true)
+        setTimeout(() => {
+            setOk(false);
+        }, 2000);
+
         e.target.reset();
 
         setNewGame({
@@ -182,7 +189,7 @@ const ContactForm = () => {
     return (
         <ContactFormStyleWrapper>
             <div className="contact_form">
-                <h3 className="from_title">Nuevo Juego</h3>
+                <h3 className="from_title">{ok ? "EXITO AL CREAR el juego" : "crear Nuevo Juego"}</h3>
 
                 <div className="contact_user_form">
                     <form action='' onSubmit={onSubmit}>

@@ -44,11 +44,13 @@ const ProjectDetailsStyleWrapper = styled.div`
   }
 `;
 const DetailPage = () => {
-    const {game, loading} = useSelector(state => state.games)
-    console.log(`game: ${JSON.stringify(game)}`)
+    const game = useSelector(state => state.games.game)
+    const loading = useSelector(state => state.games.loading)
     const {id} = useParams()
 
     const dispatch = useDispatch()
+
+    console.log(game)
 
     useEffect(() => {
         const getGame = () => dispatch(getGameByIdAction(id))
@@ -73,7 +75,7 @@ const DetailPage = () => {
                     <GameInfo game={game} genre={true}/>
                 </div>
                 <div className="column-game">
-                    <GameInfo game={game}/>
+                    <GameInfo game={game} genre={false}/>
                 </div>
             </div>
         </ProjectDetailsStyleWrapper>

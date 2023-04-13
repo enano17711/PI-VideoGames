@@ -5,6 +5,9 @@ import titleShape from "../assets/icons/steps.png";
 import Button from "./Button.jsx";
 import {useDispatch} from "react-redux";
 import {searchGameByNameAction} from "../actions/gamesActions/searchGameByNameAction.js";
+import {getGamesAction} from "../actions/gamesActions/getGamesAction.js";
+import {getGenresAction} from "../actions/genresActions/getGenresAction.js";
+import {paginateGamesAction} from "../actions/gamesActions/paginateGamesAction.js";
 //import {findGamesByName} from "../slices/games.js";
 
 const PageHeaderStyleWrapper = styled.div`
@@ -137,15 +140,22 @@ const Header = ({currentPage, pageTitle}) => {
 
     const dispatch = useDispatch()
 
+    const reload = () => {
+        dispatch(getGenresAction());
+        dispatch(getGamesAction()).then(() => {
+            dispatch(paginateGamesAction(0));
+        });
+    }
+
     return (
         <PageHeaderStyleWrapper>
             <div className={"container"}>
                 <div className={"row"}>
                     <div className={"col-lg-5"}>
                         <div className="breadcrumb_area">
-                            <div className="breadcrumb_menu">
+                            <div className="breadcrumb_menu" onClick={() => reload()}>
                                 <>
-                                    <a href="# ">Home</a> <span>.</span> {currentPage && currentPage}
+                                    <a href="#">Home</a> <span>.</span> {currentPage && currentPage}
                                 </>
                                 <img
                                     className="heading_shape"

@@ -3,15 +3,16 @@ import ListWrapper from "../components/wrappers/ListWrapper.jsx";
 import ListHeader from "../components/ListHeader.jsx";
 import Pagination from "../components/Pagination.jsx";
 import {useSelector} from "react-redux";
+import LoaderCss from "../components/LoaderCss.jsx";
 
 const HomePage = () => {
     const loading = useSelector(state => state.games.loading)
 
-    if (loading) {
-        return (
-            <p>Games cargando</p>
-        )
-    }
+    /*    if (loading) {
+            return (
+                <LoaderCss/>
+            )
+        }*/
 
     return (
         <>

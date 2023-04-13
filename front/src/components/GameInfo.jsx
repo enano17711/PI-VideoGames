@@ -74,7 +74,7 @@ const TokenInfoStyleWrapper = styled.div`
 const GameInfo = ({game, genre}) => {
     return (
         <>
-            {genre
+            {genre === true
                 ? (<TokenInfoStyleWrapper>
                     <div className="token_info_title">
                         <h4>Genres</h4>

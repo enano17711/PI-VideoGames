@@ -24,7 +24,8 @@ const initialState = {
     game: {},
     error: false,
     loading: false,
-    length: null
+    length: null,
+    order: 0
 }
 
 export default function (state = initialState, action) {
@@ -82,7 +83,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 games: state.auxGame,
-                length: state.auxGame.filter(game => game.genres.includes(action.payload)).length
+                length: state.games.filter(game => game.genres.includes(action.payload)).length
             }
         case FILTER_GAMES_BY_GENRE:
             return {
@@ -93,22 +94,18 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 games: state.auxGame,
-                length: action.payload === "DB"
-                    ? action.games.filter(game => game.apiId === null).length
-                    : action.games.filter(game => game.apiId !== null).length
+                length: action.payload !== "DB" ? state.games.filter(game => game.apiId !== null).length : state.games.filter(game => game.apiId === null).length,
             }
         case FILTER_GAMES_BY_ORIGIN:
             return {
                 ...state,
-                games: action.payload === "DB"
-                    ? action.games.filter(game => game.apiId === null)
-                    : action.games.filter(game => game.apiId !== null)
+                games: action.payload !== "DB" ? state.games.filter(game => game.apiId !== null) : state.games.filter(game => game.apiId === null)
             }
         case ORDER_GAMES_BY_NAME:
             return {
                 ...state,
                 games: action.payload === "ASC"
-                    ? state.games.sort(function (a, b) {
+                    ? state?.games?.sort(function (a, b) {
                         if (a.name < b.name) {
                             return -1;
                         }
@@ -116,7 +113,7 @@ export default function (state = initialState, action) {
                             return 1;
                         }
                         return 0;
-                    }) : state?.sort(function (a, b) {
+                    }) : state?.games?.sort(function (a, b) {
                         if (a.name < b.name) {
                             return -1;
                         }
@@ -124,18 +121,20 @@ export default function (state = initialState, action) {
                             return 1;
                         }
                         return 0;
-                    }).reverse()
+                    }).reverse(),
+                order: state.order + 1
             }
         case ORDER_GAMES_BY_RATING:
             return {
                 ...state,
                 games: action.payload === "ASC"
-                    ? state.sort(function (a, b) {
+                    ? state.games.sort(function (a, b) {
                         return a.rating - b.rating
                     })
-                    : state.sort(function (a, b) {
+                    : state.games.sort(function (a, b) {
                         return a.rating - b.rating
-                    }).reverse()
+                    }).reverse(),
+                order: state.order + 1
             }
         default:
             return state;

@@ -5,12 +5,16 @@ export function getGameByIdAction(payload) {
     return async (dispatch) => {
         dispatch(getGameById())
         try {
-            console.log(`this is payload: ${payload}`)
             const response = await http.get(`/videogames/${payload}`)
-            console.log(`this is response: ${JSON.stringify(response.data)}`)
-            dispatch(searchGameByNameSuccess(response.data))
+            if (response.data.genres[0].id !== undefined) {
+                const newResponse = response.data
+                newResponse.genres = response.data.genres.map(genre => genre.name)
+                dispatch(getGameByIdSuccess(newResponse))
+            } else {
+                dispatch(getGameByIdSuccess(response.data))
+            }
         } catch (e) {
-            dispatch(searchGameByNameError(e.message))
+            dispatch(getGameByIdError(e.message))
         }
     }
 }
@@ -19,11 +23,11 @@ const getGameById = () => ({
     type: GET_GAME_BY_ID,
     payload: true
 })
-const searchGameByNameSuccess = (payload) => ({
+const getGameByIdSuccess = (payload) => ({
     type: GET_GAME_BY_ID_SUCCESS,
     payload
 })
-const searchGameByNameError = (payload) => ({
+const getGameByIdError = (payload) => ({
     type: GET_GAME_BY_ID_ERROR,
     payload
 })
